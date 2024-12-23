@@ -16,5 +16,7 @@ logging.basicConfig(
     level= logging.INFO #level is the logging level
 )
 
+'''
 if __name__ == "__main__":
     logging.info("Logging is working") #logging.info() method logs the message with the INFO level
+'''

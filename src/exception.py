@@ -1,4 +1,4 @@
-import logging
+from src.logger import logging
 import sys #sys library is used to get the exception information in the except block 
 
 def error_message_detail(error, error_detail:sys):
@@ -18,13 +18,14 @@ class CustomException(Exception): #CustomException class inherits the Exception 
     def __str__(self):
         return self.error_message #return the error message details
     
-    
+    '''
 if __name__ == "__main__":
     
     try:
         a = 10/0
     except Exception as e:
-        logging.error("Division by zero error")
-        logging.log(logging.ERROR, CustomException(e, sys)) #logging.log() method logs the message with the ERROR level
+        logging.info("Division by zero error")
+     #logging.log() method logs the message with the ERROR level
         raise CustomException(e, sys)
+    '''
     
