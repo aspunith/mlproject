@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import dill
 from sklearn.metrics import r2_score
+from sklearn.model_selection import GridSearchCV
 
 def save_object(file_path, obj):
     try:
@@ -19,12 +20,17 @@ def save_object(file_path, obj):
         raise e
     
 
-def evaluate_model(X_train,y_train,X_test,y_test, models):
+def evaluate_model(X_train,y_train,X_test,y_test, models,params):
     try:
         report={}
         for i in range(len(list(models))):
             model = list(models.values())[i]
-            model.fit(X_train, y_train)
+            params = list(params.values())[i]
+            
+            grid = GridSearchCV(model, params, cv=5, n_jobs=-1)
+            grid.fit(X_train, y_train)
+            
+            model.set_params(**grid.best_params_)
             
             y_pred_train = model.predict(X_train)
             y_pred_test = model.predict(X_test)

@@ -49,8 +49,51 @@ class ModelTrainer:
                 "Linear Regression": LinearRegression(),
                 
             }
+            params = {
+    "Random Forest": {
+        "n_estimators": [100, 200, 300],    # Number of trees in the forest
+        "max_depth": [None, 10, 20],        # Maximum depth of the tree
+        "min_samples_split": [2, 5, 10]     # Minimum samples required to split a node
+    },
+    "Decision Tree": {
+        "max_depth": [None, 10, 20],        # Maximum depth of the tree
+        "min_samples_split": [2, 5, 10],    # Minimum samples required to split a node
+        "min_samples_leaf": [1, 2, 4]       # Minimum samples at a leaf node
+    },
+    "AdaBoost": {
+        "n_estimators": [50, 100, 200],     # Number of boosting stages
+        "learning_rate": [0.01, 0.1, 1.0],  # Shrinks the contribution of each regressor
+        "loss": ['linear', 'square', 'exponential']  # Loss function
+    },
+    "Gradient Boosting": {
+        "n_estimators": [100, 200, 300],    # Number of boosting stages
+        "learning_rate": [0.01, 0.1, 0.2],  # Step size shrinkage
+        "max_depth": [3, 5, 7]              # Maximum depth of the tree
+    },
+    "XGBoost": {
+        "n_estimators": [100, 200, 300],    # Number of boosting rounds
+        "learning_rate": [0.01, 0.1, 0.2],  # Step size shrinkage
+        "max_depth": [3, 5, 7]              # Maximum depth of a tree
+    },
+    "CatBoost": {
+        "iterations": [500, 1000, 1500],    # Number of boosting iterations
+        "learning_rate": [0.01, 0.03, 0.1], # Learning rate
+        "depth": [4, 6, 8]                  # Depth of the tree
+    },
+    "KNN": {
+        "n_neighbors": [3, 5, 7],           # Number of neighbors to use
+        "weights": ['uniform', 'distance'], # Weight function
+        "p": [1, 2, 3]                      # Power parameter for Minkowski metric
+    },
+    "Linear Regression": {
+        "fit_intercept": [True, False],     # Whether to calculate the intercept
+        "normalize": [True, False],         # Whether to normalize the data
+        "n_jobs": [None, 1, -1]             # Number of jobs to use for computation
+    }
+}
+
             
-            model_report:dict=evaluate_model(X_train, y_train,X_test,y_test, models=models)
+            model_report:dict=evaluate_model(X_train, y_train,X_test,y_test, models=models,params=params)
             
             #best model score
             best_model_score = max(model_report.values())
