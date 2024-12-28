@@ -53,8 +53,8 @@ class DataTransformation:
             
             cat_pipeline = Pipeline(
                 steps=[
-                ('imputer', SimpleImputer(strategy='most_frequent')), #fill the missing values with the most frequent value
-                ('one_hot_encoder', OneHotEncoder()), #encode the categorical variables
+                ('imputer', SimpleImputer(strategy='most_frequent',fill_value='Unknown')), #fill the missing values with the most frequent value
+                ('one_hot_encoder', OneHotEncoder(drop=None,sparse_output=False,handle_unknown='ignore')), #encode the categorical variables
                 ('scaler', StandardScaler(with_mean=False)) #scale the features
             ]
                 )

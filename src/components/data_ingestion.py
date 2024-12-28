@@ -1,6 +1,9 @@
 #Contains the code for data ingestion: usually reading the data from the source and loading it into the memory for further processing.Like from csv, database, etc.
 import os
 import sys
+# Add the project root directory to Python path
+project_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(project_root)
 
 from src.exception import CustomException
 from src.logger import logging
@@ -48,6 +51,7 @@ class DataIngestion:
             
         except Exception as e:
             raise CustomException(e,sys)
+            
             
 if __name__ == "__main__":
     data_ingestion=DataIngestion()

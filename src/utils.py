@@ -25,12 +25,23 @@ def evaluate_model(X_train,y_train,X_test,y_test, models,params):
         report={}
         for i in range(len(list(models))):
             model = list(models.values())[i]
-            params = list(params.values())[i]
+            param = list(params.values())[i]
             
-            grid = GridSearchCV(model, params, cv=5, n_jobs=-1)
-            grid.fit(X_train, y_train)
+            if param is None or not isinstance(param, dict):
+                raise ValueError(f"Parameter grid for model {list(models.keys())[i]} is not a dict or is None")
             
-            model.set_params(**grid.best_params_)
+            grid = GridSearchCV(model, param, cv=5, n_jobs=-1)
+            
+            try:
+                grid.fit(X_train, y_train)
+                best_params = grid.best_params_
+            except Exception as e:
+                print("Error during grid search:", str(e))
+                print("Model:", model)
+                print("Parameters:", params)
+            
+            model.set_params(**best_params)
+            model.fit(X_train, y_train)
             
             y_pred_train = model.predict(X_train)
             y_pred_test = model.predict(X_test)
@@ -40,9 +51,17 @@ def evaluate_model(X_train,y_train,X_test,y_test, models,params):
             
             report[list(models.keys())[i]] = r2_test
             
-            
-            
         return report
     
     except Exception as e:
-        raise CustomException(f"Error in model evaluation: {str(e)}")
+        raise CustomException(f"Error in model evaluation: {str(e)}",sys)
+    
+def load_object(file_path):
+        try:
+            with open(file_path, 'rb') as file:
+                obj = dill.load(file)
+                
+            return obj
+        
+        except Exception as e:
+            raise CustomException(f"Error in loading object: {str(e)}",sys)    
