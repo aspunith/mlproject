@@ -34,14 +34,14 @@ on:
       - 'README.md'
     
 # Environment variables
-#env:
- #AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
- #ECR_REPOSITORY: mltest           # set this to your Amazon ECR repository name
-  #ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-  #ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-  #ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+env:
+ AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
+ ECR_REPOSITORY: studentperformance           # set this to your Amazon ECR repository name
+ ECS_SERVICE: my-ecs-service                 # set this to your Amazon ECS service name
+ ECS_CLUSTER: my-ecs-cluster                 # set this to your Amazon ECS cluster name
+ ECS_TASK_DEFINITION: task-definition  # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  #CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
+ CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
@@ -99,11 +99,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      #- name: Fill in the new image ID in the Amazon ECS task definition
-       # id: task-def
-        #uses: aws-actions/amazon-ecs-render-task-definition@v1
-        #with:
-         # task-defin
+    
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
@@ -139,11 +135,3 @@ jobs:
         run: |
          docker system prune -f
 
-
-
-
-    #- name: Deploy Amazon ECS task definition
-     # uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #with:
-       # task-defin
-        #wait-for-service-stability: true
