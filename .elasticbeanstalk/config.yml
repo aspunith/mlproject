@@ -1,0 +1,5 @@
+branch-defaults:
+  main:
+    environment: Performance-env
+global:
+  profile: eb-cli
