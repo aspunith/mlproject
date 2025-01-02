@@ -1,17 +1,20 @@
-# Description: Dockerfile for building the image for the application
-FROM python:3.12
+# Use a Python base image
+FROM python:3.10-slim
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /application
 
-# Copy the current directory contents into the container at /application
-COPY . /application
+# Install system dependencies (including git)
+RUN apt-get update && apt-get install -y --no-install-recommends git
 
-# Install AWS CLI
-RUN apt update -y && apt install awscli -y 
+# Copy project files
+COPY . .
 
 # Install Python dependencies
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Run the application
-CMD [ "Python3","application.py" ]
+# Clean up APT when done
+RUN apt-get remove -y git && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Command to run the application
+CMD ["python", "application.py"]
