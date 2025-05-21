@@ -76,3 +76,6 @@ The following libraries are used in the project:
 - **CatBoost**: For categorical boosting models.
 - **Streamlit**: For building the web app interface.
 - **MLflow**: For experiment tracking and model management.
+
+## Application Link
+The application is hosted and can be accessed at: [Student Performance Prediction App](http://your-app-link.com)
