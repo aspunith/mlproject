@@ -32,6 +32,9 @@ def evaluate_model(X_train,y_train,X_test,y_test, models,params):
             
             grid = GridSearchCV(model, param, cv=5, n_jobs=-1)
             
+            # Ensure `best_params` is always defined
+            best_params = None
+
             try:
                 grid.fit(X_train, y_train)
                 best_params = grid.best_params_
@@ -39,8 +42,12 @@ def evaluate_model(X_train,y_train,X_test,y_test, models,params):
                 print("Error during grid search:", str(e))
                 print("Model:", model)
                 print("Parameters:", params)
+
+            if best_params is not None:
+                model.set_params(**best_params)
+            else:
+                raise ValueError("The variable 'best_params' could not be determined due to an error during grid search.")
             
-            model.set_params(**best_params)
             model.fit(X_train, y_train)
             
             y_pred_train = model.predict(X_train)
@@ -64,4 +71,4 @@ def load_object(file_path):
             return obj
         
         except Exception as e:
-            raise CustomException(f"Error in loading object: {str(e)}",sys)    
+            raise CustomException(f"Error in loading object: {str(e)}",sys)

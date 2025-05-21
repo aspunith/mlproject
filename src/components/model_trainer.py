@@ -4,6 +4,13 @@ import sys
 from dataclasses import dataclass
 
 from catboost import CatBoostRegressor
+
+# Ensure the library is installed in the environment
+try:
+    import catboost
+except ImportError:
+    raise ImportError("The 'catboost' library is not installed. Please install it using 'pip install catboost'.")
+
 from sklearn.ensemble import (
     AdaBoostRegressor,
     GradientBoostingRegressor,
@@ -130,7 +137,7 @@ class ModelTrainer:
             
             #threshold for best model
             if best_model_score<0.6:
-                raise CustomException('Best model score is less than 0.6, no model found')
+                raise CustomException('Best model score is less than 0.6, no model found', sys.exc_info())
             logging.info(f'Best model found on both training and testing dataset: {best_model_name}')
             
             save_object(
@@ -146,4 +153,4 @@ class ModelTrainer:
             
         except Exception as e:
             raise CustomException(e,sys)
-        
+
